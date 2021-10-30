@@ -50,7 +50,14 @@ async function run() {
       res.json(result);
     });
 
-    // send User booking related datato database / Create api
+    // get user booking api
+    app.get("/usersBooking", async (req, res) => {
+      const users = userBookings.find({});
+      const result = await users.toArray();
+      res.json(result);
+    });
+
+    // create User booking related datato database / Create api
     app.post("/usersBooking", async (req, res) => {
       const bookingDetails = req.body;
       const result = await userBookings.insertOne(bookingDetails);
