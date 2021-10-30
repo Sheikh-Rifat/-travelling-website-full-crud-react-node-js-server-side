@@ -28,8 +28,10 @@ async function run() {
     await client.connect();
     // console.log("connected to db");
 
+    // database name and collections
     const database = client.db("airrnr-a-11");
     const serviceCollection = database.collection("resorts");
+    const userBookings = database.collection("user_bookings");
 
     // get all data / Read api
     app.get("/services", async (req, res) => {
@@ -45,6 +47,13 @@ async function run() {
 
       const query = { _id: ObjectId(id) };
       const result = await serviceCollection.findOne(query);
+      res.json(result);
+    });
+
+    // send User booking related datato database / Create api
+    app.post("/usersBooking", async (req, res) => {
+      const bookingDetails = req.body;
+      const result = await userBookings.insertOne(bookingDetails);
       res.json(result);
     });
   } finally {
