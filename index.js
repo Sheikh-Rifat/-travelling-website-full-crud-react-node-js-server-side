@@ -57,10 +57,35 @@ async function run() {
       res.json(result);
     });
 
+    // Update single user api / UPDATE
+    app.put("/manageUsers/:id", async (req, res) => {
+      const id = req.params.id;
+      // console.log(id);
+      const query = { _id: ObjectId(id) };
+      const update = req.body;
+      // console.log(update);
+      const updateDoc = {
+        $set: {
+          status: update.status,
+        },
+      };
+      const result = await userBookings.updateOne(query, updateDoc);
+      res.json(result);
+    });
+
     // create User booking related datato database / Create api
     app.post("/usersBooking", async (req, res) => {
       const bookingDetails = req.body;
       const result = await userBookings.insertOne(bookingDetails);
+      res.json(result);
+    });
+
+    // delete a user booking / Delete api
+    app.delete("/usersBooking/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      // console.log(id);
+      const result = await userBookings.deleteOne(query);
       res.json(result);
     });
   } finally {
