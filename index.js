@@ -40,6 +40,13 @@ async function run() {
       res.json(result);
     });
 
+    // Post Data to service collection / Create service api
+    app.post("/host", async (req, res) => {
+      const addService = req.body;
+      const result = await serviceCollection.insertOne(addService);
+      res.send(result);
+    });
+
     // get a single data / Read single api
     app.get("/serviceDetails/:id", async (req, res) => {
       const id = req.params.id;
